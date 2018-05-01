@@ -30,6 +30,7 @@
 #include "stm32f4xx.h"
 #include "timer.h"
 #include "main.h"
+#include "time.h"
 
 uint32_t tick = 0; // tick is the time stamp,which record how many ms since u
                    // initialize the system.
@@ -105,6 +106,7 @@ SystickConfig()
     while (1)
       ; // run here when error.
   }
+	
 }
 
 void
@@ -123,6 +125,8 @@ delay_nms(uint16_t time)
 extern "C" {
 #endif //__cplusplus
 
+extern "C" volatile uint32_t sysTickUptime;
+
 void
 SysTick_Handler(void)
 {
@@ -131,6 +135,9 @@ SysTick_Handler(void)
     tick = 0;
   }
   tick++;
+	sysTickUptime++;
+	sys_time();
+
 }
 void
 TIM1_UP_TIM10_IRQHandler(void)

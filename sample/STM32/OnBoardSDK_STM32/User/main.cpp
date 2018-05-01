@@ -42,6 +42,7 @@
 
 #include "stm32f4xx.h"
 #include "main.h"
+#include "scheduler.h"
 
 #define sample_flag 0;
 #ifdef FLIGHT_CONTROL_SAMPLE
@@ -115,7 +116,9 @@ main()
   char     func[50];
   while (1)
   {
-    // One time automatic activation
+			Duty_Loop(); 
+
+		// One time automatic activation
     if (runOnce)
     {
       

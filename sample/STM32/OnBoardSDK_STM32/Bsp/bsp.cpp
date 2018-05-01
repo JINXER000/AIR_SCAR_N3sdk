@@ -30,12 +30,32 @@
 #include "stm32f4xx.h"
 #include "bsp.h"
 #include "main.h"
+#include "usart1.h"
+#include "Driver_vision.h"
+#include "pwm.h"
+#include "time.h"
 
+u8 Init_Finish = 0;				//!! remmember to set 1 at the end of init
+
+// CAUTION: SYSTICK MAY BE WRONG!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 void
 BSPinit()
 {
   UsartConfig();
-  SystickConfig();
+	USART1_Configuration(100000);
+	USART6_Config(115200);				//mini pc
+	Uart4_Init (115200);				// base
+	TIM3_PWM_Init(167,3000);
+
+//  SystickConfig();
+		SysTick_Configuration(); 	//		!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!					
+		Cycle_Time_Init();
+	
+	PIDinitconfig();
+
   Timer1Config();
   Timer2Config();
+
+	 Vision_InitConfig();
+	Init_Finish=1;
 }

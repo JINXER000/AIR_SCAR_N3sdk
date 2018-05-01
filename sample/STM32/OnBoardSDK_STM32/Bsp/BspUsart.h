@@ -31,11 +31,18 @@
 #define _BSPUSART_H
 #include "dji_vehicle.hpp"
 #include "stdio.h"
+#include "stm32f4xx.h"
+
 void                      USART2_Config(void);
 void                      USART3_Config(void);
 void                      USARTxNVIC_Config(void);
 void                      UsartConfig(void);
 void                      NVIC_Config(void);
 void                      Rx_buff_Handler();
+
+void Uart4_Init(u32 br_num);
+void Uart4_Send(unsigned char *DataToSend ,u8 data_num);
+void USART6_Config(u32 bound);
+
 DJI::OSDK::ACK::ErrorCode waitForACK();
 #endif //_USART_H
