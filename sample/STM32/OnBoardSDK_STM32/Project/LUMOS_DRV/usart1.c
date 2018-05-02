@@ -15,6 +15,7 @@ static uint8_t _USART1_RX_BUF[BSP_USART1_RX_BUF_SIZE_IN_FRAMES * BSP_USART1_DMA_
 static FIFO_t  _USART1_RX_FIFO;
 
 static RC_Raw_t rc_raw_data;	 //remote raw data 
+#define USE_DBUS 
 
 #if defined USE_DBUS
 
@@ -88,6 +89,9 @@ void USART1_Configuration(uint32_t baud_rate)
 
 }
 
+#ifdef __cplusplus
+extern "C" {
+#endif //__cplusplus
 //串口接收中断服务函数
 void USART1_IRQHandler(void)
 {
@@ -152,6 +156,10 @@ void USART1_IRQHandler(void)
 		}
 	}       
 }
+#ifdef __cplusplus
+}
+#endif //__cplusplus
+
 
 static void USART1_FIFO_Init(void)
 {
@@ -162,6 +170,5 @@ void *USART1_GetRxBuf(void)
 {
     return (void *)&_USART1_RX_FIFO;
 }
-
 #endif
 

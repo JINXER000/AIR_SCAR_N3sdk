@@ -58,9 +58,9 @@ STM32F4::send(const uint8_t* buf, size_t len)
   int sent_byte_count = 0;
   while (len--)
   {
-    while (USART_GetFlagStatus(USART3, USART_FLAG_TC) == RESET)
+    while (USART_GetFlagStatus(UART4, USART_FLAG_TC) == RESET)
       ;
-    USART_SendData(USART3, *p++);
+    USART_SendData(UART4, *p++);
     ++sent_byte_count;
   }
   return sent_byte_count;

@@ -22,7 +22,13 @@
 *                                             FUNCTION PROTOTYPES
 *********************************************************************************************************
 */
+#ifdef __cplusplus
+extern "C"{
+#endif //__cplusplus
 void USART1_IRQHandler(void);
+#ifdef __cplusplus
+}
+#endif //__cplusplus
 static void USART1_FIFO_Init(void);
 void *USART1_GetRxBuf(void);
 void USART1_Configuration(uint32_t baud_rate);

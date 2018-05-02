@@ -6,7 +6,7 @@
 
 #define CH_NUM 				(8) 	//chanel num of remote control
 
-#define ANO_U4
+//#define ANO_U4
 // Note: v2.6 is more stable than v4.6
 /////////////////////////////////////////////////////////////////////////////////////
 #define BYTE0(dwTemp)       ( *( (char *)(&dwTemp)		) )

@@ -44,7 +44,7 @@ BSPinit()
   UsartConfig();
 	USART1_Configuration(100000);
 	USART6_Config(115200);				//mini pc
-	Uart4_Init (115200);				// base
+	Uart4_Init (230400);				// base
 	TIM3_PWM_Init(167,3000);
 
 //  SystickConfig();

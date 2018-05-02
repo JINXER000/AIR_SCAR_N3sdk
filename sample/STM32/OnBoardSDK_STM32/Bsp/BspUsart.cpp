@@ -97,8 +97,8 @@ USART3_Gpio_Config(void)
 	//GPIO_PinAFConfig(GPIOA, GPIO_PinSource2, GPIO_AF_USART2); // tx
   //GPIO_PinAFConfig(GPIOA, GPIO_PinSource3, GPIO_AF_USART2); // rx
 	
-  GPIO_PinAFConfig(GPIOA, GPIO_PinSource10, GPIO_AF_USART3); // tx
-  GPIO_PinAFConfig(GPIOA, GPIO_PinSource11, GPIO_AF_USART3); // rx
+  GPIO_PinAFConfig(GPIOB, GPIO_PinSource10, GPIO_AF_USART3); // tx
+  GPIO_PinAFConfig(GPIOB, GPIO_PinSource11, GPIO_AF_USART3); // rx
 }
 
 /*
@@ -108,7 +108,7 @@ USART3_Gpio_Config(void)
 void
 USART2_Config(void)
 {
-  //USART2_Gpio_Config();
+  USART2_Gpio_Config();
 
   RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART2, ENABLE);
   USART_InitTypeDef USART_InitStructure;
@@ -173,14 +173,14 @@ void Uart4_Init ( u32 br_num )
 
     //???????
     NVIC_InitStructure.NVIC_IRQChannel = UART4_IRQn;
-    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 2;
-    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;
+    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 4;
+    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 4;
     NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
     NVIC_Init ( &NVIC_InitStructure );
 
 
-    GPIO_PinAFConfig ( GPIOA, GPIO_PinSource0, GPIO_AF_UART5 );
-    GPIO_PinAFConfig ( GPIOA, GPIO_PinSource1, GPIO_AF_UART5 );
+    GPIO_PinAFConfig ( GPIOA, GPIO_PinSource0, GPIO_AF_UART4);
+    GPIO_PinAFConfig ( GPIOA, GPIO_PinSource1, GPIO_AF_UART4 );
 
     //??PC12??UART5 Tx
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0;
@@ -216,36 +216,36 @@ u8 Tx4Buffer[256];
 u8 Tx4Counter = 0;
 u8 count4 = 0;
 
-void UART4_IRQHandler ( void )
-{
-    u8 com_data;
+//void UART4_IRQHandler ( void )
+//{
+//    u8 com_data;
 
-    //????
-    if ( USART_GetITStatus ( UART4, USART_IT_RXNE ) )
-    {
-        USART_ClearITPendingBit ( UART4, USART_IT_RXNE ); //??????
+//    //????
+//    if ( USART_GetITStatus ( UART4, USART_IT_RXNE ) )
+//    {
+//        USART_ClearITPendingBit ( UART4, USART_IT_RXNE ); //??????
 
-        com_data = UART4->DR;
+//        com_data = UART4->DR;
 
-//        AnoOF_GetOneByte ( com_data );
-    }
+////        AnoOF_GetOneByte ( com_data );
+//    }
 
-    //??(????)??
-    if ( USART_GetITStatus ( UART4, USART_IT_TXE ) )
-    {
+//    //??(????)??
+//    if ( USART_GetITStatus ( UART4, USART_IT_TXE ) )
+//    {
 
-        UART4->DR = Tx4Buffer[Tx4Counter++]; //?DR??????
+//        UART4->DR = Tx4Buffer[Tx4Counter++]; //?DR??????
 
-        if ( Tx4Counter == count4 )
-        {
-            UART4->CR1 &= ~USART_CR1_TXEIE;		//??TXE(????)??
-        }
+//        if ( Tx4Counter == count4 )
+//        {
+//            UART4->CR1 &= ~USART_CR1_TXEIE;		//??TXE(????)??
+//        }
 
 
-        //USART_ClearITPendingBit(USART2,USART_IT_TXE);
-    }
+//        //USART_ClearITPendingBit(USART2,USART_IT_TXE);
+//    }
 
-}
+//}
 void Uart4_Send(unsigned char *DataToSend ,u8 data_num)
 {
 	u8 i;
@@ -315,6 +315,9 @@ void USART6_Config(u32 bound){
     USART_ClearFlag(USART6, USART_FLAG_TC);
 }
 
+#ifdef __cplusplus
+extern "C" {
+#endif //__cplusplus
 
 void USART6_IRQHandler(void)
 {
@@ -342,6 +345,9 @@ void USART6_IRQHandler(void)
     
  
 }
+#ifdef __cplusplus
+}
+#endif //__cplusplus
 
 void
 USARTxNVIC_Config()
@@ -435,10 +441,15 @@ extern "C" {
 void
 USART3_IRQHandler(void)
 {
-  if (USART_GetFlagStatus(USART3, USART_FLAG_RXNE) == SET)
+  
+}
+
+void UART4_IRQHandler ( void )
+{
+  if (USART_GetFlagStatus(UART4, USART_FLAG_RXNE) == SET)
   {
     isACKProcessed = false;
-    isFrame = v->protocolLayer->byteHandler(USART_ReceiveData(USART3));
+    isFrame = v->protocolLayer->byteHandler(USART_ReceiveData(UART4));
     if (isFrame == true)
     {
 			rFrame = v->protocolLayer->getReceivedFrame();
@@ -453,6 +464,37 @@ USART3_IRQHandler(void)
   }
 }
 
+
+/*void UART4_IRQHandler ( void )
+{
+    u8 com_data;
+
+    //????
+    if ( USART_GetITStatus ( UART4, USART_IT_RXNE ) )
+    {
+        USART_ClearITPendingBit ( UART4, USART_IT_RXNE ); //??????
+
+        com_data = UART4->DR;
+
+//        AnoOF_GetOneByte ( com_data );
+    }
+
+    //??(????)??
+    if ( USART_GetITStatus ( UART4, USART_IT_TXE ) )
+    {
+
+        UART4->DR = Tx4Buffer[Tx4Counter++]; //?DR??????
+
+        if ( Tx4Counter == count4 )
+        {
+            UART4->CR1 &= ~USART_CR1_TXEIE;		//??TXE(????)??
+        }
+
+
+        //USART_ClearITPendingBit(USART2,USART_IT_TXE);
+    }
+
+}*/
 #ifdef __cplusplus
 }
 #endif //__cplusplus

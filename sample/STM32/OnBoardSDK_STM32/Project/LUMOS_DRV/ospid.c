@@ -130,7 +130,7 @@ void PIDinitconfig()
 		PitchIPID.motortype=PITCHI;
 #endif
 
-	  YawOPID.P = 0.02;
+	  YawOPID.P = 0.08;
     YawOPID.I = 0;
     YawOPID.D = 0;
     YawOPID.CurrentError = 0;

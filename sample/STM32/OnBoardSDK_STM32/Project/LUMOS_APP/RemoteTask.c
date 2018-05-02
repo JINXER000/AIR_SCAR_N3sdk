@@ -211,6 +211,7 @@ void RemoteDataPrcess(uint8_t *pData)
 		{
 			//Ò£¿ØÆ÷¿ØÖÆÄ£Ê½
 			RemoteControlProcess(&(RC_CtrlData.rc));
+			autoflag=0;
 		}break;
 		case KEY_MOUSE_INPUT:
 		{
@@ -248,8 +249,8 @@ void RemoteControlProcess(Remote *rc)
 	RemoteShootControl(&switch1, rc->s1);
 		pwmwatch[0]=(rc->ch0 - (int16_t)REMOTE_CONTROLLER_STICK_OFFSET) * 0.021; 
 		pwmwatch[1]=(rc->ch1 - (int16_t)REMOTE_CONTROLLER_STICK_OFFSET) * 0.021;
-		PWMC1+=pwmwatch[0];
-		PWMC2+=pwmwatch[1];
+		PWMC1+=pwmwatch[1];
+		PWMC2+=pwmwatch[0];
 		pwmwatch[2]=PWMC1;
 		pwmwatch[3]=PWMC2;
 

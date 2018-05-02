@@ -110,11 +110,11 @@ if(autoflag)
 {
 //		TargetAngle=RecToPolar(EnemyDataBuffer[EnemyDataBufferPoint].X, EnemyDataBuffer[EnemyDataBufferPoint].Y, EnemyDataBuffer[EnemyDataBufferPoint].Z, 0, 0, 0);
 		pitchgoal=0;
-		pitchnow=Enemy_now.X;
+		pitchnow=Enemy_now.Y;
 		PWMC1+=Control_PitchPID();
 
 		yawgoal=0;
-		yawnow=Enemy_now.Y;
+		yawnow=Enemy_now.X;
 		PWMC2-=Control_YawPID();
 	
 }	
