@@ -52,6 +52,7 @@ float test[5],magrms;
 void Duty_2ms()
 {
 //	 ANO_DT_Send_Senser(Enemy_now.X,Enemy_now.Y,PWMC1, PWMC2, PitchOPID.CurrentError,YawOPID.CurrentError,0,0,0);
+//	usart1_report_imu(Enemy_now.X,Enemy_now.Y,PWMC1, PWMC2, PitchOPID.CurrentError,YawOPID.CurrentError,0,0,0);
 }
 
 void Duty_5ms()

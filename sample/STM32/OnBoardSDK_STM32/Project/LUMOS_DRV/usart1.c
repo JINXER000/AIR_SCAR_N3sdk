@@ -25,19 +25,34 @@ void USART1_Configuration(uint32_t baud_rate)
 	  USART_InitTypeDef usart;
 	  NVIC_InitTypeDef nvic;
     DMA_InitTypeDef dma;
+	  GPIO_InitTypeDef GPIO_InitStructure;
+
     
     RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOB, ENABLE); 
+	
     RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_DMA2, ENABLE);
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_USART1, ENABLE); 
+	
+		RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA,ENABLE); //使能GPIOA时钟
+
     
     GPIO_PinAFConfig(GPIOB, GPIO_PinSource7, GPIO_AF_USART1);
-    
+		GPIO_PinAFConfig(GPIOA,GPIO_PinSource9,GPIO_AF_USART1); //GPIOA9复用为USART1
+   
     GPIO_StructInit(&gpio);
     gpio.GPIO_Pin = GPIO_Pin_7;
     gpio.GPIO_Mode = GPIO_Mode_AF;
     gpio.GPIO_Speed = GPIO_Speed_2MHz;
     gpio.GPIO_PuPd = GPIO_PuPd_UP;
     GPIO_Init(GPIOB, &gpio);
+		
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9 ; //GPIOA9与GPIOA10
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;//复用功能
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;	//速度50MHz
+	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP; //推挽复用输出
+	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP; //上拉
+	GPIO_Init(GPIOA,&GPIO_InitStructure); //初始化PA9，PA10
+
     
     USART_DeInit(USART1);
     USART_StructInit(&usart);
@@ -45,7 +60,7 @@ void USART1_Configuration(uint32_t baud_rate)
     usart.USART_WordLength = USART_WordLength_8b;
     usart.USART_StopBits = USART_StopBits_1;
     usart.USART_Parity = USART_Parity_Even;
-    usart.USART_Mode = USART_Mode_Rx;
+    usart.USART_Mode = USART_Mode_Rx| USART_Mode_Tx;
     usart.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
     USART_Init(USART1, &usart);
     
@@ -156,6 +171,7 @@ void USART1_IRQHandler(void)
 		}
 	}       
 }
+
 #ifdef __cplusplus
 }
 #endif //__cplusplus
