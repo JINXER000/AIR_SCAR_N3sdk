@@ -2,7 +2,6 @@
 #include "math.h"
 //#include "cali.h"
 //#include "mpu6050_driver.h"
-
 #define SINGLELOOP
 //#define DUALLOOP
 //#define ANO_CALIPID
@@ -13,6 +12,9 @@
 // float setanglexy,anglenow;
 // short gyroxgoal,gyroygoal,gyrozgoal;
 float pitcherrbias=0,rollerrbias=0;
+
+int DEADBANDP	=10;
+
 
 PID_Type PitchPositionSavedPID;        	//PID offset data
 PID_Type PitchSpeedSavedPID;        	//PID offset data
@@ -108,7 +110,7 @@ void PIDinitconfig()
 #endif
 	
 #elif defined FRESHINIT
-	  PitchOPID.P = 0.05;
+	  PitchOPID.P = 0.08;
     PitchOPID.I = 0;
     PitchOPID.D = 0;
     PitchOPID.CurrentError = 0;
@@ -130,7 +132,7 @@ void PIDinitconfig()
 		PitchIPID.motortype=PITCHI;
 #endif
 
-	  YawOPID.P = 0.08;
+	  YawOPID.P = 0.12;
     YawOPID.I = 0;
     YawOPID.D = 0;
     YawOPID.CurrentError = 0;
@@ -185,6 +187,10 @@ int16_t Control_PitchPID(void)
 {
 	
 	PitchOPID.CurrentError=pitchgoal-pitchnow-pitcherrbias;
+//	if(PitchOPID.CurrentError>std::abs(float)(DEADBANDP))					
+//	{
+//		return 0;
+//	}
 	PitchOPID.Pout = PitchOPID.P * PitchOPID.CurrentError;
 	
 	if (PitchOPID.CurrentError>10)

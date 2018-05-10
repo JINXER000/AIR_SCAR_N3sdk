@@ -6,7 +6,7 @@
 
 #define CH_NUM 				(8) 	//chanel num of remote control
 
-#define ANO_U1
+#define ANO_U6
 // Note: v2.6 is more stable than v4.6
 /////////////////////////////////////////////////////////////////////////////////////
 #define BYTE0(dwTemp)       ( *( (char *)(&dwTemp)		) )
@@ -137,7 +137,8 @@ void ANO_DT_Send_Data(u8 *dataToSend , u8 length)
 	Usart2_Send(data_to_send, length);
 #elif defined ANO_U4
 	Uart4_Send(data_to_send, length);
-
+#elif defined ANO_U6
+	Usart6_Send(data_to_send, length);
 #endif
 }
 

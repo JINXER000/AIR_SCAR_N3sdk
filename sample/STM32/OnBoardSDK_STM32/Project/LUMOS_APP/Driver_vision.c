@@ -140,6 +140,10 @@ void PCdataprocess(u8 ucData)
 		{
 					Enemy_now.X=EnemyDataBuffer[EnemyDataBufferPoint].X;
 					Enemy_now.Y=EnemyDataBuffer[EnemyDataBufferPoint].Y;
+					Enemy_now.ID=1;
+		}else
+		{
+					Enemy_now.ID=0;
 		}
 				EnemyDataBufferPoint=(EnemyDataBufferPoint + 1) % ENEMYDATABUFFERLENGHT;		
 		

@@ -49,9 +49,12 @@ void Duty_1ms()
 }
 
 float test[5],magrms;
+int tempcnt=0,framecnt;
+extern int framecounter;
+
 void Duty_2ms()
 {
-//	 ANO_DT_Send_Senser(Enemy_now.X,Enemy_now.Y,PWMC1, PWMC2, PitchOPID.CurrentError,YawOPID.CurrentError,0,0,0);
+	 ANO_DT_Send_Senser(Enemy_now.X,Enemy_now.Y,PWMC1, PWMC2, PitchOPID.CurrentError,YawOPID.CurrentError,Enemy_now.ID*6666,framecnt,0);
 //	usart1_report_imu(Enemy_now.X,Enemy_now.Y,PWMC1, PWMC2, PitchOPID.CurrentError,YawOPID.CurrentError,0,0,0);
 }
 
@@ -59,8 +62,6 @@ void Duty_5ms()
 {
 	 
 }
-int tempcnt=0,framecnt;
-extern int framecounter;
 void Duty_10ms()
 {
 
@@ -119,8 +120,8 @@ if(autoflag)
 		PWMC2-=Control_YawPID();
 	
 }	
-				VAL_LIMIT(PWMC1,750,960);
-			VAL_LIMIT(PWMC2,500,2400);
+				VAL_LIMIT(PWMC1,700,850);
+			VAL_LIMIT(PWMC2,560,1140);
 	
 }
 

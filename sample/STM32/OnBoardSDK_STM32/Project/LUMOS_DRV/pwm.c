@@ -79,6 +79,7 @@ void TIM3_PWM_Init(int psc,int prd)
 	TIM_OC4Init(TIM3, &TIM3_OCInitStructure);  	
 	TIM_Cmd(TIM3, ENABLE);
 	PWMC1=930;
+	PWMC2=850;
 }
 void TIM4_PWM_Init(int psc,int prd)		//cannot work
 {

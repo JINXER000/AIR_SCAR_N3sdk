@@ -315,34 +315,52 @@ void USART6_Config(u32 bound){
     USART_ClearFlag(USART6, USART_FLAG_TC);
 }
 
+u8 Tx6Buffer[256];
+u8 Tx6Counter = 0;
+u8 count6 = 0;
+
+void Usart6_Send(unsigned char *DataToSend ,u8 data_num)
+{
+	u8 i;
+	for(i=0;i<data_num;i++)
+	{
+
+		Tx6Buffer[count6++] = *(DataToSend+i);
+	}
+
+	if(!(USART6->CR1 & USART_CR1_TXEIE))
+	{
+		USART_ITConfig(USART6, USART_IT_TXE, ENABLE); //??????
+	}
+
+}
+
+
 #ifdef __cplusplus
 extern "C" {
 #endif //__cplusplus
 
 void USART6_IRQHandler(void)
 {
-	/*u8 Res;
-    if(USART_GetITStatus(USART6, USART_IT_RXNE) != RESET)  //接收中断(接收到的数据必须是0x0d 0x0a结尾)
-	{
-		USART_ClearITPendingBit(USART6,USART_IT_RXNE); //??????.
-		Res =USART6->DR;	//读取接收到的数据
-		USART_RX_BUF[USART_RX_STA&0X3FFF]=Res ;
-		USART_RX_STA++;
-		if(USART_RX_STA>(USART_REC_LEN-1))USART_RX_STA=0;//接收数据错误,重新开始接收
-		 
-  } */
-	
-	//uartPort_t *s = &uartPort2;
-    //uint16_t SR = USART6->SR;
 
     if(USART_GetITStatus(USART6, USART_IT_RXNE) != RESET){
 			USART_ClearITPendingBit(USART6,USART_IT_RXNE); 
-        // If we registered a callback, pass crap there
-//        sbusDataReceive(USART6->DR);
-			
 			PCdataprocess(USART6->DR);
     }
-    
+		
+    if ( USART_GetITStatus ( USART6, USART_IT_TXE ) )
+    {
+
+        USART6->DR = Tx6Buffer[Tx6Counter++]; //?DR??
+
+        if ( Tx6Counter == count6 )
+        {
+            USART6->CR1 &= ~USART_CR1_TXEIE;		//??TXE(????)??
+        }
+
+        //USART_ClearITPendingBit(USART2,USART_IT_TXE);
+    }
+
  
 }
 #ifdef __cplusplus
