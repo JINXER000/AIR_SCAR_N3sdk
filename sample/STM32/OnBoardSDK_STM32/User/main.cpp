@@ -108,12 +108,13 @@ int N3_init(void){
 int
 main()
 {
-  BSPinit();
+   char     func[50]; 
+	BSPinit();
 
   delay_nms(30);
-  printf("STM32F4Discovery Board initialization finished!\r\n");
-   N3_init();
-  char     func[50];
+//  printf("STM32F4Discovery Board initialization finished!\r\n");
+//   N3_init();
+
   while (1)
   {
 			Duty_Loop(); 

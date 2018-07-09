@@ -24,14 +24,14 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
- *
+ *	U6: PC 	U1:REMOTE		U3: XMC		U2:N3		U4:  CMD of pc or phone
  */
 
 #include "stm32f4xx.h"
 #include "BspUsart.h"
 #include "timer.h"
 #include "Driver_vision.h"
-
+#include "RemoteTask.h"
 extern int Rx_Handle_Flag;
 
 using namespace DJI::OSDK;
@@ -346,6 +346,7 @@ void USART6_IRQHandler(void)
     if(USART_GetITStatus(USART6, USART_IT_RXNE) != RESET){
 			USART_ClearITPendingBit(USART6,USART_IT_RXNE); 
 			PCdataprocess(USART6->DR);
+			KDBase_process(USART6->DR);
     }
 		
     if ( USART_GetITStatus ( USART6, USART_IT_TXE ) )

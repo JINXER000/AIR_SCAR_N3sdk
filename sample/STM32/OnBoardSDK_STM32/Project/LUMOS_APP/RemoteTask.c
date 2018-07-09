@@ -368,3 +368,48 @@ void SetShootState(Shoot_State_e v)
 //	//摩擦轮运行状态初始化
 //	SetFrictionState(FRICTION_WHEEL_OFF);
 //}
+u8 kdBuffer[20];
+u8 kdcnt=0;
+KDBaseinfo_t KDBaseinfo;
+
+int byte2int(u8 order)
+{
+	if(order>128)
+	{
+	return (int)(128-order);
+	}else
+	{
+	return order;
+	}
+}
+void KDBase_process(u8 kddata)
+{
+	kdBuffer[kdcnt]=kddata;
+	kdcnt++;
+	if (kdBuffer[0]!=0x01)
+	{
+		kdcnt=0;
+		return;
+	}
+//	if (kdBuffer[9]!=0x0d)
+//	{
+//		kdcnt=0;
+//		return;
+//	}
+//	if (kdBuffer[10]!=0x0a)
+//	{
+//		kdcnt=0;
+//		return;
+//	}		
+//	
+	if(kdcnt<11) {return;}
+	else
+	{
+		KDBaseinfo.forwardspeed=byte2int(kdBuffer[1]);
+		KDBaseinfo.rotatespeed=byte2int(kdBuffer[3]);
+		
+		kdcnt=0;
+	}
+	
+	
+}
