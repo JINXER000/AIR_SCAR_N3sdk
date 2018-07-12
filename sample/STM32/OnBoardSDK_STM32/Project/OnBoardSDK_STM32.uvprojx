@@ -847,6 +847,11 @@
               <FileType>1</FileType>
               <FilePath>.\LUMOS_APP\cali.c</FilePath>
             </File>
+            <File>
+              <FileName>Ano_OF.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\LUMOS_APP\Ano_OF.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

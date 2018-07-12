@@ -122,6 +122,8 @@ if(autoflag)
 }	
 				VAL_LIMIT(PWMC1,700,850);
 			VAL_LIMIT(PWMC2,560,1140);
+
+// limit yaw angle within (580,880)
 	
 }
 

@@ -44,6 +44,8 @@ void Uart4_Init(u32 br_num);
 void Uart4_Send(unsigned char *DataToSend ,u8 data_num);
 void USART6_Config(u32 bound);
 void Usart6_Send(unsigned char *DataToSend ,u8 data_num);
+void Uart5_Init(u32 br_num);
+void Uart5_Send(unsigned char *DataToSend ,u8 data_num);
 	
 DJI::OSDK::ACK::ErrorCode waitForACK();
 #endif //_USART_H
