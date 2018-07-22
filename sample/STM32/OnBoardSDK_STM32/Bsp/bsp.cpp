@@ -34,6 +34,7 @@
 #include "Driver_vision.h"
 #include "pwm.h"
 #include "time.h"
+#include "mypid.h"
 
 u8 Init_Finish = 0;				//!! remmember to set 1 at the end of init
 
@@ -59,5 +60,7 @@ BSPinit()
   Timer2Config();
 
 	 Vision_InitConfig();
+	myPIDinit(&VXPID);
+	myPIDinit(&VYPID);
 	Init_Finish=1;
 }

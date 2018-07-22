@@ -3,9 +3,11 @@
 #include "ANO-Tech.h"
 #include "Driver_vision.h"
 #include "RemoteTask.h"
+#include "FlightControlSample.h"
 
 #include "pwm.h"
 #include "ospid.h"
+#include "kdbase.h"
 
 s16 loop_cnt;
 
@@ -79,6 +81,16 @@ void Duty_10ms()
 
 void Duty_20ms()
 {
+//		if(	(KDBaseinfo.forwardspeed!=0)|| (KDBaseinfo.rotatespeed!=0))				//execute only once
+//		{
+//			 moveByPositionOffset(KDBaseinfo.forwardspeed/100, 0, 0, KDBaseinfo.rotatespeed);
+//		KDBaseinfo.forwardspeed=0;
+//		KDBaseinfo.rotatespeed=0;
+
+//		}
+//		
+	keepvx_of();
+
 }
 int gun_cnt;
 void Duty_50ms()

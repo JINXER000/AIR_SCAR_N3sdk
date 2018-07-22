@@ -852,6 +852,11 @@
               <FileType>1</FileType>
               <FilePath>.\LUMOS_APP\Ano_OF.c</FilePath>
             </File>
+            <File>
+              <FileName>kdbase.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\LUMOS_APP\kdbase.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -916,6 +921,11 @@
               <FileName>time.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\LUMOS_DRV\time.c</FilePath>
+            </File>
+            <File>
+              <FileName>mypid.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\LUMOS_DRV\mypid.c</FilePath>
             </File>
           </Files>
         </Group>

@@ -151,11 +151,6 @@ typedef struct RemoteSwitch_t
 	 uint8_t buf_end_index;
 }RemoteSwitch_t;
 
-typedef struct KDBaseinfo_t
-{
-	int forwardspeed,rotatespeed;
-	u8 fdb[29];
-}KDBaseinfo_t;
 
 extern ChassisSpeed_Ref_t ChassisSpeedRef;
 extern Gimbal_Ref_t GimbalRef;
@@ -173,6 +168,5 @@ void RemoteShootControl(RemoteSwitch_t *sw, uint8_t val);
 void RemoteControlProcess(Remote *rc);
 void MouseShootControl(Mouse *mouse);
 void MouseKeyControlProcess(Mouse *mouse, Key *key);
-void KDBase_process(u8 kddata);
 #endif
 
