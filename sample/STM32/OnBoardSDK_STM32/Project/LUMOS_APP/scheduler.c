@@ -18,8 +18,8 @@ extern int autoflag,	pwmwatch[4];
 extern  PID_Type PitchOPID,PitchIPID,RollIPID,RollOPID,AnglePID ,YawIPID,YawOPID ;
 extern float angle_inc,angle_cmd;
 AngleF_Struct TargetAngle;
-int i;
-
+int i,taskcnt,taskNEED=32;
+int workstate=0;
 float pitchSpeed = 0.0,rollSpeed = 0.0;
 
 void Loop_check()  //TIME INTTERRUPT
@@ -64,7 +64,7 @@ void Duty_5ms()
 {
 	 
 }
-void Duty_10ms()
+void Duty_10ms()	//counting time for cam and task
 {
 
 		if(tempcnt==100)
@@ -72,11 +72,18 @@ void Duty_10ms()
 			framecnt=framecounter;
 			tempcnt=0;
 			framecounter=0;
+
+			taskcnt++;
 		}
 		else
 		{
 			tempcnt++;
 		}
+	//swich task: 0: manual;1:stay hight;2:avoid obstacle 
+	//motion list: 0: stay 1:forward; 2:up; 3:down
+		
+//			controltask();
+
 }
 
 void Duty_20ms()
@@ -90,6 +97,7 @@ void Duty_20ms()
 //		}
 //		
 	keepvx_of();
+	
 
 }
 int gun_cnt;
@@ -178,10 +186,66 @@ void Duty_Loop()   					//最短任务周期为1ms，总的代码执行时间需
 		loop.check_flag = 0;		//循环运行完毕标志
 	}
 }
+int mission1step=1;
+void keephight()
+{
+	//wait 10s
 
+	//go to 2.5m
 
+	//wait 30s
+	if(mission1step==1)
+	{
+		
+		if(taskcnt>taskNEED)	//finish keephight
+		{
+			taskcnt=0;
+			mission1step=0;
+		}
+		keepalt(2.5);
 
+	}
 
-	/******************* (C) COPYRIGHT 2014 ANO TECH *****END OF FILE************/
+	//go to 3.5m
+	//wait 30s
+	if(mission1step==2)
+	{
+		if(taskcnt>taskNEED)	//finish keephight
+		{
+			taskcnt=0;
+			mission1step=0;
+		}
+		keepalt(3.5);
+	}
+
+}
+
+void avoidobstacle()
+{
+	
+}
+int getworkstate()
+{
+	return 0;
+}
+void controltask(void)
+{
+	switch(getworkstate())
+	{
+		case 0:{
+
+		}break;
+		case 1:{
+			keephight();
+
+		}break;
+		case 2:{
+			avoidobstacle();
+		}break;
+
+		default:break;
+	
+	}
+}
 	
 

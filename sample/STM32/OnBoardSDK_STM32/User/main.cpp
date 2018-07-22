@@ -113,7 +113,9 @@ main()
 
   delay_nms(30);
 //  printf("STM32F4Discovery Board initialization finished!\r\n");
-//   N3_init();
+	#ifdef WORKINGMODE
+   N3_init();
+	#endif
 
   while (1)
   {

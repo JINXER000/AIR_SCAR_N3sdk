@@ -1,18 +1,38 @@
 
 #include "math.h"
 #include "mypid.h"
-PID_Type VXPID,VYPID;
+PID_Type VXPID,VYPID,VHPID;
 
-void myPIDinit(PID_Type *mypid)
+void myPIDinit()
 {
-	mypid->P=10;
-	mypid->I=0;
-	mypid->D=0;
-	mypid->CurrentError=0;
-	mypid->LastError=0;
-	mypid->IMax=0;
-	mypid->PIDMax=0;
-	mypid->deadbond=0;
+	VXPID.P=1;
+	VXPID.I=0;
+	VXPID.D=0;
+	VXPID.CurrentError=0;
+	VXPID.LastError=0;
+	VXPID.IMax=0;
+	VXPID.PIDMax=0;
+	VXPID.deadbond=0;
+
+	VYPID.P=1;
+	VYPID.I=0;
+	VYPID.D=0;
+	VYPID.CurrentError=0;
+	VYPID.LastError=0;
+	VYPID.IMax=0;
+	VYPID.PIDMax=0;
+	VYPID.deadbond=0;
+
+	VHPID.P=10;
+	VHPID.I=0;
+	VHPID.D=0;
+	VHPID.CurrentError=0;
+	VHPID.LastError=0;
+	VHPID.IMax=0;
+	VHPID.PIDMax=0;
+	VHPID.deadbond=0;
+	
+
 }
 
 float myPIDcontrol(PID_Type *mypid,float ref,float fdb)

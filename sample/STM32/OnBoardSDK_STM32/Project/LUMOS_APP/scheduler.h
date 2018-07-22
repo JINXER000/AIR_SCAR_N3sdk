@@ -24,6 +24,15 @@ void Inner_Loop(float);
 
 void Outer_Loop(float);
 
+void keephight(void);
+void avoidobstacle(void);
+int getworkstate(void);
+void controltask(void);
+
+//#define WORKINGMODE
+
+
+
 
 #endif
 

@@ -9,6 +9,6 @@ extern KDBaseinfo_t KDBaseinfo;
 void KDBase_process(unsigned char kddata);
 void keepvx_of();
 void keepvy_of();
-
+void keepalt(float tgtalt);
 
 #endif

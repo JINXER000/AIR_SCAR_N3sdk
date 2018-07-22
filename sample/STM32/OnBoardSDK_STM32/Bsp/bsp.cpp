@@ -60,7 +60,6 @@ BSPinit()
   Timer2Config();
 
 	 Vision_InitConfig();
-	myPIDinit(&VXPID);
-	myPIDinit(&VYPID);
+	myPIDinit();
 	Init_Finish=1;
 }
