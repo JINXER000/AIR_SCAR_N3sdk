@@ -16,7 +16,7 @@ extern Vehicle* v;
 unsigned char kdBuffer[20];
 unsigned char kdcnt=0;
 KDBaseinfo_t KDBaseinfo;
-
+int testcmd=0;
 int byte2int(unsigned char order)
 {
 	if(order>128)
@@ -52,10 +52,10 @@ void KDBase_process(unsigned char kddata)
 	{
 		KDBaseinfo.forwardspeed=byte2int(kdBuffer[1]);
 		KDBaseinfo.rotatespeed=byte2int(kdBuffer[3]);
-		
 #ifdef WORKINGMODE
-
-		moveByPositionOffset(KDBaseinfo.forwardspeed/100, 0, 0, KDBaseinfo.rotatespeed);
+		testcmd=1;
+		
+//		moveByPositionOffset(KDBaseinfo.forwardspeed/100, 0, 0, KDBaseinfo.rotatespeed);
 #endif
 		kdcnt=0;
 	}
@@ -68,7 +68,6 @@ void keepvx_of()
 		//if we head x, we should keep of_y=0 and set vx as a constant value
 	vycmd=myPIDcontrol(&VYPID,0,OF_DY2FIX);
 	#ifdef WORKINGMODE
-
 	v->control->angularRateAndVertPosCtrl(vycmd/100,0,0,0);
 	#endif
 	//pidy(0-of_y);
@@ -82,8 +81,7 @@ void keepvy_of()
 	//pidx(0-of_x);
 	//pid(vy_set-of_y)
 		vxcmd=myPIDcontrol(&VXPID,0,OF_DX2FIX);
-	#ifdef WORKINGMODE
-
+#ifdef WORKINGMODE
 	v->control->angularRateAndVertPosCtrl(0,vxcmd/100,0,0);
 #endif
 }
@@ -102,7 +100,6 @@ void keepalt(float tgtalt)
 {
 	vhcmd=myPIDcontrol(&VHPID,tgtalt,OF_ALT2);
 #ifdef WORKINGMODE
-
 	v->control-> attitudeAndVertPosCtrl(0,0,0,vhcmd);
 #endif
 }

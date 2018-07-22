@@ -206,7 +206,7 @@ OpenProtocol::freeACK(ACKSession* session)
 }
 
 /******************** Send Pipeline **********************/
-
+std::uint8_t* watchecdsddt;
 void
 OpenProtocol::send(uint8_t session_mode, bool is_enc, const uint8_t cmd[],
                    void* pdata, size_t len, int timeout, int retry_time,
@@ -214,6 +214,7 @@ OpenProtocol::send(uint8_t session_mode, bool is_enc, const uint8_t cmd[],
 {
   Command  cmdContainer;
   uint8_t* ptemp = (uint8_t*)encodeSendData;
+	watchecdsddt=ptemp;
   *ptemp++       = cmd[0];
   *ptemp++       = cmd[1];
 

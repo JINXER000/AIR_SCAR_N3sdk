@@ -1,5 +1,6 @@
 #ifndef __KDBASE_H_
 #define __KDBASE_H_
+extern int testcmd;
 typedef struct KDBaseinfo_t
 {
 	int forwardspeed,rotatespeed;

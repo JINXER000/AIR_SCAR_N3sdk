@@ -206,34 +206,82 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-          <LineNumber>651</LineNumber>
+          <LineNumber>195</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134223118</Address>
+          <Address>134277304</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-          <Filename>H:\椋炴満\N3\SDK-5_2\SDK-5_2\sample\STM32\OnBoardSDK_STM32\User\FlightControlSample.cpp</Filename>
+          <Filename>H:\椋炴満\N3\SDK-5_2\SDK-5_2\osdk-core\api\src\dji_subscription.cpp</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\osdk_stm32\../User/FlightControlSample.cpp\651</Expression>
+          <Expression>\\osdk_stm32\../../../../osdk-core/api/src/dji_subscription.cpp\195</Expression>
         </Bp>
         <Bp>
           <Number>1</Number>
           <Type>0</Type>
-          <LineNumber>522</LineNumber>
+          <LineNumber>198</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134222200</Address>
+          <Address>134277328</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-          <Filename>H:\椋炴満\N3\SDK-5_2\SDK-5_2\sample\STM32\OnBoardSDK_STM32\User\FlightControlSample.cpp</Filename>
+          <Filename>H:\椋炴満\N3\SDK-5_2\SDK-5_2\osdk-core\api\src\dji_subscription.cpp</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\osdk_stm32\../User/FlightControlSample.cpp\522</Expression>
+          <Expression>\\osdk_stm32\../../../../osdk-core/api/src/dji_subscription.cpp\198</Expression>
+        </Bp>
+        <Bp>
+          <Number>2</Number>
+          <Type>0</Type>
+          <LineNumber>201</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>134277372</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>H:\椋炴満\N3\SDK-5_2\SDK-5_2\osdk-core\api\src\dji_subscription.cpp</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\osdk_stm32\../../../../osdk-core/api/src/dji_subscription.cpp\201</Expression>
+        </Bp>
+        <Bp>
+          <Number>3</Number>
+          <Type>0</Type>
+          <LineNumber>242</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>134259838</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>H:\椋炴満\N3\SDK-5_2\SDK-5_2\osdk-core\protocol\src\dji_open_protocol.cpp</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\osdk_stm32\../../../../osdk-core/protocol/src/dji_open_protocol.cpp\242</Expression>
+        </Bp>
+        <Bp>
+          <Number>4</Number>
+          <Type>0</Type>
+          <LineNumber>217</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>134259714</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>H:\椋炴満\N3\SDK-5_2\SDK-5_2\osdk-core\protocol\src\dji_open_protocol.cpp</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\osdk_stm32\../../../../osdk-core/protocol/src/dji_open_protocol.cpp\217</Expression>
         </Bp>
       </Breakpoint>
       <WatchWindow1>
@@ -261,6 +309,11 @@
           <count>4</count>
           <WinNumber>1</WinNumber>
           <ItemText>VYPID</ItemText>
+        </Ww>
+        <Ww>
+          <count>5</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>watchecdsddt</ItemText>
         </Ww>
       </WatchWindow1>
       <WatchWindow2>

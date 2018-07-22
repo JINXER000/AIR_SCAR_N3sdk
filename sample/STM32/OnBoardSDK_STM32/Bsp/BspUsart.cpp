@@ -443,7 +443,8 @@ void UART5_IRQHandler(void)
 	u8 com_data;
 
   //接收中断
-	if( USART_GetITStatus(UART5,USART_IT_RXNE) )
+	//if( USART_GetITStatus(UART5,USART_IT_RXNE) )
+	if(USART_GetITStatus(UART5,USART_FLAG_ORE)==RESET)
 	{
 		USART_ClearITPendingBit(UART5,USART_IT_RXNE);//清除中断标志
 
