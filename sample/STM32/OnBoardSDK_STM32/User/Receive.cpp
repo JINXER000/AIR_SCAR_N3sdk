@@ -32,9 +32,13 @@
 #include "Receive.h"
 #include "main.h"
 uint8_t mission_flag=0;
+extern Vehicle* v;
 
 using namespace DJI::OSDK;
 uint32_t runOnce = 0;
+float x_offset,y_offset,z_offset,yaw_desired;    //for position control
+float set_vx,set_vy,set_vz,set_yawrate;             //for velocity control  
+uint8_t set_duration;
 /*
  * @brief Helper function to assemble two bytes into a float number
  */
@@ -77,24 +81,62 @@ TerminalCommand::terminalCommandHandler(Vehicle* vehicle)
     case 0x00:
       vehicle->getDroneVersion();
       break;
-
     case 0x01:
       userActivate();
       break;
-		case 0x05:
-      printf("\n\nStarting executing position control sample:\r\n");
-      delay_nms(1000);
-      // Run monitor takeoff
-      monitoredTakeOff();
+		case 0x02:
+      printf("\n\nStarting executing position control:\r\n");
+      delay_nms(10);
       // Run position control sample
       float zPosition = 0;
-				
-	    moveByPositionOffset(0, 6, zPosition, 0);
-      moveByPositionOffset(6, 0, zPosition, 0);
-      moveByPositionOffset(-6, -6, zPosition, 0);
-      // Run monitored landing sample
-      monitoredLanding();
-
+			x_offset = (float)cmdIn[3]/10.0;
+		  y_offset = (float)cmdIn[4]/10.0;
+		  z_offset = (float)cmdIn[5]/10.0;
+		  yaw_desired = (float)cmdIn[6];
+	    moveByPositionOffset(x_offset, y_offset, z_offset, yaw_desired);
+		
+		  //   should add ack
+		  //
+		  break;
+		
+		case 0x03:
+			set_vx = (float)cmdIn[3]/10.0;
+		  set_vy = (float)cmdIn[4]/10.0;
+		  set_vz = (float)cmdIn[5]/10.0;
+		  set_yawrate = (float)cmdIn[7];
+		  uint8_t cnt = cmdIn[6]*50;  //50Hz  for test
+		  while(cnt--){
+					v->control->velocityAndYawRateCtrl(set_vx,set_vy,set_vz,set_yawrate);
+					delay_nms(20);       //50Hz   for test
+					}
+			//   should add ack
+		  //
+			break;
+					
+		case 0x04:
+			subscribeToData();
+		  break;
+    case 0x05:
+      switch(cmdIn[3])
+        {
+        case 0x01:
+          //flight->task(Flight::TASK_GOHOME);
+          break;
+        case 0x02:
+          monitoredTakeOff();
+          break;
+        case 0x03:
+          monitoredLanding();
+          break;
+        }
+        break;
+		case 0x06:
+			 v->obtainCtrlAuthority();
+		   break;
+		case 0x07:
+			//v->subscribe->removePackage(pkgIndex);
+      delay_nms(3000);	
+     
     /*  case 0x02:
         api->setControl(cmdIn[3]);
         break;
@@ -201,8 +243,8 @@ USART2_IRQHandler(void)
   if (USART_GetFlagStatus(USART2, USART_FLAG_RXNE) == SET)
   {
     uint8_t oneByte = USART_ReceiveData(USART2);
-		if(runOnce == 0)
-		runOnce = oneByte;
+//		if(runOnce == 0)
+//		runOnce = oneByte;
     if (myTerminal.rxIndex == 0)
     {
       if (oneByte == 0xFA){
@@ -217,6 +259,7 @@ USART2_IRQHandler(void)
         myTerminal.rxLength                  = myTerminal.rxIndex + 1;
         myTerminal.rxIndex                   = 0;
         myTerminal.cmdReadyFlag              = 1;
+				myTerminal.terminalCommandHandler(v);
 			}else{
         myTerminal.cmdIn[myTerminal.rxIndex] = oneByte;
         myTerminal.rxIndex++;

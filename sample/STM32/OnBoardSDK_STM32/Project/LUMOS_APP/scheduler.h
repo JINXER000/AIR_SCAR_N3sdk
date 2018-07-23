@@ -2,6 +2,19 @@
 #define _SCHEDULER_H_
 
 #include "sys.h"
+typedef enum
+{
+	MANUAL_STATE,
+	TASK1_STATE,
+	TASK2_STATE,
+}Workstate_e;
+typedef enum
+{
+	STAYSTILL,
+	FORWARD,
+	HIGHER,
+	LOWER,
+}Motionlist_e;
 
 typedef struct
 {

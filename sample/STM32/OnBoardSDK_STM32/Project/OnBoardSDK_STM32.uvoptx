@@ -206,57 +206,9 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-          <LineNumber>195</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>134277304</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>H:\椋炴満\N3\SDK-5_2\SDK-5_2\osdk-core\api\src\dji_subscription.cpp</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\osdk_stm32\../../../../osdk-core/api/src/dji_subscription.cpp\195</Expression>
-        </Bp>
-        <Bp>
-          <Number>1</Number>
-          <Type>0</Type>
-          <LineNumber>198</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>134277328</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>H:\椋炴満\N3\SDK-5_2\SDK-5_2\osdk-core\api\src\dji_subscription.cpp</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\osdk_stm32\../../../../osdk-core/api/src/dji_subscription.cpp\198</Expression>
-        </Bp>
-        <Bp>
-          <Number>2</Number>
-          <Type>0</Type>
-          <LineNumber>201</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>134277372</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>H:\椋炴満\N3\SDK-5_2\SDK-5_2\osdk-core\api\src\dji_subscription.cpp</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\osdk_stm32\../../../../osdk-core/api/src/dji_subscription.cpp\201</Expression>
-        </Bp>
-        <Bp>
-          <Number>3</Number>
-          <Type>0</Type>
           <LineNumber>242</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134259838</Address>
+          <Address>134260262</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
@@ -266,22 +218,6 @@
           <Filename>H:\椋炴満\N3\SDK-5_2\SDK-5_2\osdk-core\protocol\src\dji_open_protocol.cpp</Filename>
           <ExecCommand></ExecCommand>
           <Expression>\\osdk_stm32\../../../../osdk-core/protocol/src/dji_open_protocol.cpp\242</Expression>
-        </Bp>
-        <Bp>
-          <Number>4</Number>
-          <Type>0</Type>
-          <LineNumber>217</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>134259714</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>H:\椋炴満\N3\SDK-5_2\SDK-5_2\osdk-core\protocol\src\dji_open_protocol.cpp</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\osdk_stm32\../../../../osdk-core/protocol/src/dji_open_protocol.cpp\217</Expression>
         </Bp>
       </Breakpoint>
       <WatchWindow1>
@@ -315,6 +251,41 @@
           <WinNumber>1</WinNumber>
           <ItemText>watchecdsddt</ItemText>
         </Ww>
+        <Ww>
+          <count>6</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>KDBaseinfo,0x0A</ItemText>
+        </Ww>
+        <Ww>
+          <count>7</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>vycmd</ItemText>
+        </Ww>
+        <Ww>
+          <count>8</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>vhcmd</ItemText>
+        </Ww>
+        <Ww>
+          <count>9</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>OF_ALT2,0x0A</ItemText>
+        </Ww>
+        <Ww>
+          <count>10</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>VHPID</ItemText>
+        </Ww>
+        <Ww>
+          <count>11</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>VXPID</ItemText>
+        </Ww>
+        <Ww>
+          <count>12</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>myTerminal</ItemText>
+        </Ww>
       </WatchWindow1>
       <WatchWindow2>
         <Ww>
@@ -347,7 +318,7 @@
       <DebugFlag>
         <trace>0</trace>
         <periodic>1</periodic>
-        <aLwin>1</aLwin>
+        <aLwin>0</aLwin>
         <aCover>0</aCover>
         <aSer1>0</aSer1>
         <aSer2>0</aSer2>

@@ -11,5 +11,6 @@ void KDBase_process(unsigned char kddata);
 void keepvx_of();
 void keepvy_of();
 void keepalt(float tgtalt);
+void keepstation();
 
 #endif

@@ -11,7 +11,7 @@ void myPIDinit()
 	VXPID.CurrentError=0;
 	VXPID.LastError=0;
 	VXPID.IMax=0;
-	VXPID.PIDMax=0;
+	VXPID.PIDMax=10;
 	VXPID.deadbond=0;
 
 	VYPID.P=1;
@@ -20,17 +20,17 @@ void myPIDinit()
 	VYPID.CurrentError=0;
 	VYPID.LastError=0;
 	VYPID.IMax=0;
-	VYPID.PIDMax=0;
+	VYPID.PIDMax=10;
 	VYPID.deadbond=0;
 
-	VHPID.P=10;
+	VHPID.P=5;
 	VHPID.I=0;
 	VHPID.D=0;
 	VHPID.CurrentError=0;
 	VHPID.LastError=0;
 	VHPID.IMax=0;
-	VHPID.PIDMax=0;
-	VHPID.deadbond=0;
+	VHPID.PIDMax=100;
+	VHPID.deadbond=5;
 	
 
 }

@@ -341,14 +341,19 @@ void Usart6_Send(unsigned char *DataToSend ,u8 data_num)
 #ifdef __cplusplus
 extern "C" {
 #endif //__cplusplus
+    int comdata6;
 
 void USART6_IRQHandler(void)
 {
 
-    if(USART_GetITStatus(USART6, USART_IT_RXNE) != RESET){
+//	if(USART_GetITStatus(USART6, USART_IT_RXNE) != RESET)
+		if(USART_GetITStatus(UART5,USART_FLAG_ORE)==RESET)
+
+	{
 			USART_ClearITPendingBit(USART6,USART_IT_RXNE); 
 			PCdataprocess(USART6->DR);
 			KDBase_process(USART6->DR);
+		comdata6=USART6->DR;
     }
 		
     if ( USART_GetITStatus ( USART6, USART_IT_TXE ) )
@@ -583,6 +588,11 @@ USART3_IRQHandler(void)
 {
   
 }
+
+
+
+
+
 
 void UART4_IRQHandler ( void )
 {

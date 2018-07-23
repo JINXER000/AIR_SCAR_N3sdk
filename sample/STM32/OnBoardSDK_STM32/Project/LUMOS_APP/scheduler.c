@@ -19,7 +19,8 @@ extern  PID_Type PitchOPID,PitchIPID,RollIPID,RollOPID,AnglePID ,YawIPID,YawOPID
 extern float angle_inc,angle_cmd;
 AngleF_Struct TargetAngle;
 int i,taskcnt,taskNEED=32;
-int workstate=0;
+Workstate_e workstate,lastworkstate;
+Motionlist_e motionlist,lastmotionlist;
 float pitchSpeed = 0.0,rollSpeed = 0.0;
 
 void Loop_check()  //TIME INTTERRUPT
@@ -98,7 +99,9 @@ void Duty_20ms()
 //		
 	if(testcmd)
 	{
-	keepvx_of();
+//	keepvx_of();
+//		keepalt(50);
+		keepstation();
 	
 	}
 	
@@ -224,26 +227,43 @@ void keephight()
 
 }
 
+Motionlist_e getmotionlist()
+{
+	return motionlist;
+}
 void avoidobstacle()
 {
+	switch(getmotionlist())
+	{
+		case STAYSTILL:{
+			
+		}break;
+		case FORWARD:{
+
+		}	break;
+		case HIGHER:{
+
+		}break;
+		case LOWER:{
+
+		}break;
+		default:break;
+
+	}
 	
-}
-int getworkstate()
-{
-	return 0;
 }
 void controltask(void)
 {
-	switch(getworkstate())
+	switch(workstate)
 	{
-		case 0:{
+		case MANUAL_STATE:{
 
 		}break;
-		case 1:{
+		case TASK1_STATE:{
 			keephight();
 
 		}break;
-		case 2:{
+		case TASK2_STATE:{
 			avoidobstacle();
 		}break;
 

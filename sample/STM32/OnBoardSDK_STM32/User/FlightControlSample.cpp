@@ -481,7 +481,7 @@ monitoredLanding()
   if (v->getFwVersion() != Version::M100_31)
   {
     v->subscribe->removePackage(pkgIndex);
-    delay_nms(3000);
+    delay_nms(2000);
   }
   return true;
 }
@@ -502,7 +502,7 @@ moveByPositionOffset(float xOffsetDesired, float yOffsetDesired,
   // Set timeout: this timeout is the time you allow the drone to take to finish
   // the
   // mission
-  int timeoutInMilSec              = 100000;
+  int timeoutInMilSec              = 30000;
   int controlFreqInHz              = 50; // Hz
   int cycleTimeInMs                = 1000 / controlFreqInHz;
   int outOfControlBoundsTimeLimit  = 10 * cycleTimeInMs; // 10 cycles
@@ -547,7 +547,7 @@ moveByPositionOffset(float xOffsetDesired, float yOffsetDesired,
     startGlobalPositionBroadcast(v);
 
     // Wait for data to come in
-    delay_nms(8000);
+    delay_nms(3000);
   }
 
   // Get data
