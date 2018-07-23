@@ -14,8 +14,18 @@ typedef enum
 	FORWARD,
 	HIGHER,
 	LOWER,
-}Motionlist_e;
+	SCAN1,
+	SCAN2,
 
+}Motionlist_e;
+typedef enum
+{
+	ZUO,
+	ZHONG,
+	YOU,
+	SHANG,
+	XIA,
+}radarpoints_e;
 typedef struct
 {
 	u8 check_flag;

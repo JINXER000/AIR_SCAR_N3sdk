@@ -77,13 +77,12 @@ float vycmd,vxcmd,vhcmd;
 void keepvx_of(float tgtvx)					//move in x axis			cm/s
 {
 		//if we head x, we should keep of_y=0 and set vx as a constant value
-	vxcmd=myPIDcontrol(&VXPID,tgtvx,OF_DX2FIX);
+//	vxcmd=myPIDcontrol(&VXPID,tgtvx,OF_DX2FIX);
 
 	vycmd=myPIDcontrol(&VYPID,0,OF_DY2FIX);
 	#ifdef WORKINGMODE
-		v->control->velocityAndYawRateCtrl((vxcmd+tgtvx)/100,-vycmd/100,0,0);			//		m/s
+		v->control->velocityAndYawRateCtrl(tgtvx/100,-vycmd/100,0,0);			//		m/s
 	#endif
-	//pidy(0-of_y);
 	
 
 }
@@ -92,9 +91,9 @@ void keepvy_of(float tgtvy)//move in y axis			cm/s
 {
 		//if we head y, we should keep of_x=0
 		vxcmd=myPIDcontrol(&VXPID,0,OF_DX2FIX);//			cm/s
-		vycmd=myPIDcontrol(&VYPID,tgtvy,OF_DY2FIX);//			cm/s
+//		vycmd=myPIDcontrol(&VYPID,tgtvy,OF_DY2FIX);//			cm/s
 #ifdef WORKINGMODE
-		v->control->velocityAndYawRateCtrl(vxcmd/100,(tgtvy-vycmd)/100,0,0);					//		m/s
+		v->control->velocityAndYawRateCtrl(vxcmd/100,tgtvy/100,0,0);					//		m/s
 #endif
 }
 

@@ -19,8 +19,12 @@ extern  PID_Type PitchOPID,PitchIPID,RollIPID,RollOPID,AnglePID ,YawIPID,YawOPID
 extern float angle_inc,angle_cmd;
 AngleF_Struct TargetAngle;
 int i,taskcnt,taskNEED=32;
-Workstate_e workstate,lastworkstate;
+Workstate_e workstate=TASK2_STATE,lastworkstate;
 Motionlist_e motionlist,lastmotionlist;
+radarpoints_e radarpoint=ZUO;
+int fwcnt=0,fwtim=100;	//fwcnt(10ms): count when fly forward; fwtim(1s): max time to fly forward 
+int upcnt=0,uptim=10;
+int downcnt=0,downtim=10;
 float pitchSpeed = 0.0,rollSpeed = 0.0;
 
 void Loop_check()  //TIME INTTERRUPT
@@ -217,10 +221,10 @@ void keephight()
 	//wait 30s
 	if(mission1step==2)
 	{
-		if(taskcnt>taskNEED)	//finish keephight
+		if(taskcnt>taskNEED)	//finish keep hight	task
 		{
 			taskcnt=0;
-			mission1step=0;
+			mission1step=0;			//return to normal
 		}
 		keepalt(3.5);
 	}
@@ -231,20 +235,113 @@ Motionlist_e getmotionlist()
 {
 	return motionlist;
 }
+int mydelay_1s()
+{
+	static int radargetcnt=0;
+	if(radargetcnt>100)
+	{
+
+	radargetcnt++;
+	return 0;
+	}else
+	{
+		radargetcnt=0;
+		return 1;
+	}
+
+}
+void radarmsgproc(radarpoints_e point)
+{
+	switch (point)
+	{
+		case ZUO:{
+			PWMC1=1200;
+			PWMC2=1500;
+			//wait for 1s
+			if(mydelay_1s())
+			{
+				radarpoint=ZHONG;
+			}
+
+		}break;
+		case ZHONG:{
+			PWMC1=1500;
+			PWMC2=1500;
+			if(mydelay_1s())
+			{
+				radarpoint=YOU;
+			}
+
+		}break;
+		case YOU:
+		{
+			PWMC1=1800;
+			PWMC2=1500;
+			if(mydelay_1s())
+			{
+				radarpoint=SHANG;
+			}
+
+		}break;
+		case SHANG:{
+			PWMC1=1500;
+			PWMC2=1200;
+			if(mydelay_1s())
+			{
+				radarpoint=XIA;
+			}
+			
+		}break;
+		case XIA:{
+			PWMC1=1500;
+			PWMC2=1800;
+			if(mydelay_1s())
+			{
+				radarpoint=ZUO;
+				//radarmsg judge
+				//switch motion list
+
+				motionlist=FORWARD;//test
+			}
+
+		}break;
+	}
+}
 void avoidobstacle()
 {
 	switch(getmotionlist())
 	{
 		case STAYSTILL:{
-			
+			// no operation
 		}break;
 		case FORWARD:{
-
+			if (fwcnt>fwtim)		// every time fly 1m distance, we shoud stop and scan
+			{
+				fwcnt=0;
+				motionlist=SCAN1;
+			}else
+			{
+				fwcnt++;
+			}
 		}	break;
 		case HIGHER:{
-
+			if(upcnt>uptim)
+			{
+				upcnt=0;
+				motionlist=SCAN1;
+			}else{
+				upcnt++;
+			}
 		}break;
 		case LOWER:{
+			
+
+		}break;
+		case SCAN1:{//5 points
+
+		radarmsgproc(radarpoint);
+		}break;
+		case SCAN2:{
 
 		}break;
 		default:break;
