@@ -52,7 +52,7 @@ void avoidobstacle(void);
 int getworkstate(void);
 void controltask(void);
 
-#define WORKINGMODE
+//#define WORKINGMODE
 
 
 

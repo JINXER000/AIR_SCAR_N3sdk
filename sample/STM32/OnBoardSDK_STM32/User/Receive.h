@@ -33,8 +33,23 @@
 #include "main.h"
 
 #define MAX_RECEIVE 32
+#define NUM_OF_TARGETS 7
+
 extern uint8_t mission_flag;
 extern uint32_t runOnce;
+
+
+typedef struct Target_List
+{
+	uint8_t    	target_num;		/**< non-zero value if target detected else zero */
+	uint16_t   	distance[NUM_OF_TARGETS];		/**< distance of target detected in units of cm */
+	float      	level[NUM_OF_TARGETS];			/**< absolute magnitude FFT spectrum values calculated by FMCW algorithm */
+
+} Target_List_t;
+
+extern Target_List_t s_target_list;
+
+void XMC_Data_Handler(void);
 class TerminalCommand
 {
 public:

@@ -32,13 +32,27 @@
 #include "Receive.h"
 #include "main.h"
 uint8_t mission_flag=0;
+volatile  uint8_t baro_height = 0; //unit:dm
+volatile  int8_t baro_delta_h = 0; // unit:dm               //////////////////////////////////////////
+volatile  uint8_t  flag_baro_hold = 0;                      ///////////////////////////////////////////
 extern Vehicle* v;
 
 using namespace DJI::OSDK;
+
+//cmd for api test
 uint32_t runOnce = 0;
 float x_offset,y_offset,z_offset,yaw_desired;    //for position control
 float set_vx,set_vy,set_vz,set_yawrate;             //for velocity control  
 uint8_t set_duration;
+
+
+//communication with XMC
+static uint8_t xmc_data_flag = 0x00;  
+static uint8_t xmc_data[50];
+static uint8_t xmc_data_state = 0;
+static uint8_t xmc_data_len = 0;  // data length without functional bytes
+static uint8_t xmc_data_cnt = 0;  // data number counter
+Target_List_t s_target_list;                        //////radar data
 /*
  * @brief Helper function to assemble two bytes into a float number
  */
@@ -59,6 +73,85 @@ hex2Float(uint8_t HighByte, uint8_t LowByte)
 
 TerminalCommand myTerminal;
 
+
+void XMC_Data_Receive_Prepare(uint8_t data)
+{
+	
+		if(xmc_data_state==0&&data==0xFA)
+	{
+		xmc_data_state=1;
+		xmc_data[0]=data;
+	}
+	else if(xmc_data_state==1&&data==0xFB)
+	{
+		xmc_data_state=2;
+		xmc_data[1]=data;
+	}
+	else if(xmc_data_state==2&&data<0XF1)     //功能字
+	{
+		xmc_data_state=3;
+		xmc_data[2]=data;
+	}
+	else if(xmc_data_state==3&&data<50)
+	{
+		xmc_data_state = 4;
+		xmc_data[3]=data;
+		xmc_data_len = data;
+		xmc_data_cnt = 0;
+	}
+	else if(xmc_data_state==4&&xmc_data_len>0)
+	{
+		xmc_data_len--;
+		xmc_data[4+xmc_data_cnt++]=data;
+		if(xmc_data_len==0)
+			xmc_data_state = 5;
+	}
+	else if(xmc_data_state==5)
+	{
+		xmc_data_state = 0;
+		xmc_data[4+xmc_data_cnt]=data;
+		
+		
+		XMC_Data_Handler(); //考虑放在中断服务中！！！
+		
+		
+	}
+	else
+	{
+		xmc_data_state = 0;
+	}
+		
+}
+
+void
+XMC_Data_Handler(void)
+{
+	uint16_t checksum=0;
+	
+	for(uint8_t i=0;i<(4+xmc_data_cnt);i++)
+	checksum+=xmc_data[i];
+	
+	checksum = checksum%256;
+	if(checksum != xmc_data[xmc_data_cnt+4])
+	{	
+		printf("check failed\n");
+		
+		return;
+	}
+	xmc_data_flag = xmc_data[2];   // 0x20 0x21 0x22 0x23
+	if(xmc_data_flag == 0)
+		 flag_baro_hold = 0;
+	if(xmc_data[2])
+	{
+      baro_delta_h =(int8_t) xmc_data[4];	
+			s_target_list.target_num = xmc_data[5];
+		  for(uint8_t i=0;i<s_target_list.target_num;i++)
+		   {
+			    s_target_list.distance[i] = ((uint16_t)xmc_data[6+6*i]<<8)|((uint16_t)xmc_data[7+6*i]);
+				  s_target_list.level[i] =  ((uint32_t)xmc_data[8+6*i]<<24)|((uint32_t)xmc_data[9+6*i]<<16)|((uint32_t)xmc_data[10+6*i]<<8)|((uint32_t)xmc_data[11+6*i]);
+			 }
+		}
+}
 void
 TerminalCommand::terminalCommandHandler(Vehicle* vehicle)
 {
@@ -134,9 +227,19 @@ TerminalCommand::terminalCommandHandler(Vehicle* vehicle)
 			 v->obtainCtrlAuthority();
 		   break;
 		case 0x07:
-			//v->subscribe->removePackage(pkgIndex);
-      delay_nms(3000);	
-     
+			if(cmdIn[3])
+			{
+		    printf("Starting attitude hold by baro_delta_h.\n");
+				if(xmc_data_flag)
+					flag_baro_hold = 1;
+				else printf("Starting failed.Press Button2");
+				
+			}
+			else
+				flag_baro_hold = 0;
+				
+      delay_nms(10);	
+      break;     
     /*  case 0x02:
         api->setControl(cmdIn[3]);
         break;
@@ -268,6 +371,17 @@ USART2_IRQHandler(void)
   }
 	//myTerminal.terminalCommandHandler();
 }
+
+void USART3_IRQHandler(void)
+{
+  if (USART_GetFlagStatus(USART3, USART_FLAG_RXNE) == SET)
+  {
+    uint8_t oneByte = USART_ReceiveData(USART3);
+		XMC_Data_Receive_Prepare(oneByte);
+	}
+}
+
+
 #ifdef __cplusplus
 }
 #endif //__cplusplus

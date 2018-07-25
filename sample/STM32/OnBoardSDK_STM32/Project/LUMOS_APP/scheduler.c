@@ -20,9 +20,9 @@ extern float angle_inc,angle_cmd;
 AngleF_Struct TargetAngle;
 int i,taskcnt,taskNEED=32;
 Workstate_e workstate=TASK2_STATE,lastworkstate;
-Motionlist_e motionlist,lastmotionlist;
-radarpoints_e radarpoint=ZUO;
-int fwcnt=0,fwtim=100;	//fwcnt(10ms): count when fly forward; fwtim(1s): max time to fly forward 
+Motionlist_e motionlist=FORWARD,lastmotionlist;
+radarpoints_e radarpoint=ZHONG;
+int fwcnt=0,fwtim=800;	//fwcnt(10ms): count when fly forward; fwtim(1s): max time to fly forward 
 int upcnt=0,uptim=10;
 int downcnt=0,downtim=10;
 float pitchSpeed = 0.0,rollSpeed = 0.0;
@@ -69,6 +69,7 @@ void Duty_5ms()
 {
 	 
 }
+int pwmc1=1000,pwmc2=1000;
 void Duty_10ms()	//counting time for cam and task
 {
 
@@ -87,20 +88,18 @@ void Duty_10ms()	//counting time for cam and task
 	//swich task: 0: manual;1:stay hight;2:avoid obstacle 
 	//motion list: 0: stay 1:forward; 2:up; 3:down
 		
-//			controltask();
+			controltask();
+		
+//		PWMC1=pwmc1;
+//		PWMC2=pwmc2;
+			VAL_LIMIT(PWMC1,600,1400);		//yaw, 
+			VAL_LIMIT(PWMC2,500,1400);
+
 
 }
 
 void Duty_20ms()
 {
-//		if(	(KDBaseinfo.forwardspeed!=0)|| (KDBaseinfo.rotatespeed!=0))				//execute only once
-//		{
-//			 moveByPositionOffset(KDBaseinfo.forwardspeed/100, 0, 0, KDBaseinfo.rotatespeed);
-//		KDBaseinfo.forwardspeed=0;
-//		KDBaseinfo.rotatespeed=0;
-
-//		}
-//		
 	if(testcmd)
 	{
 //	keepvx_of();
@@ -117,7 +116,7 @@ void Duty_50ms()
 //			GPIO_SetBits(GPIOB,GPIO_Pin_15);
 
 //		SetShootState(NOSHOOTING);//TEST
-
+#ifdef AUTOTRACK
 		if(GetShootState() == SHOOTING)
 		{
 		GPIO_SetBits(GPIOB,GPIO_Pin_15);
@@ -136,8 +135,7 @@ void Duty_50ms()
 			PWMC3=TRIGGER_RELEASE;
 
 		}
-		pwmwatch[2]=PWMC1;
-		pwmwatch[3]=PWMC2;
+
 
 if(autoflag)	
 {
@@ -153,6 +151,9 @@ if(autoflag)
 }	
 				VAL_LIMIT(PWMC1,700,850);
 			VAL_LIMIT(PWMC2,560,1140);
+#endif
+		pwmwatch[2]=PWMC1;
+		pwmwatch[3]=PWMC2;
 
 // limit yaw angle within (580,880)
 	
@@ -238,7 +239,7 @@ Motionlist_e getmotionlist()
 int mydelay_1s()
 {
 	static int radargetcnt=0;
-	if(radargetcnt>100)
+	if(radargetcnt<100)
 	{
 
 	radargetcnt++;
@@ -255,8 +256,8 @@ void radarmsgproc(radarpoints_e point)
 	switch (point)
 	{
 		case ZUO:{
-			PWMC1=1200;
-			PWMC2=1500;
+			PWMC1=600;
+			PWMC2=900;
 			//wait for 1s
 			if(mydelay_1s())
 			{
@@ -265,8 +266,8 @@ void radarmsgproc(radarpoints_e point)
 
 		}break;
 		case ZHONG:{
-			PWMC1=1500;
-			PWMC2=1500;
+			PWMC1=900;
+			PWMC2=900;
 			if(mydelay_1s())
 			{
 				radarpoint=YOU;
@@ -275,8 +276,8 @@ void radarmsgproc(radarpoints_e point)
 		}break;
 		case YOU:
 		{
-			PWMC1=1800;
-			PWMC2=1500;
+			PWMC1=1200;
+			PWMC2=900;
 			if(mydelay_1s())
 			{
 				radarpoint=SHANG;
@@ -284,7 +285,7 @@ void radarmsgproc(radarpoints_e point)
 
 		}break;
 		case SHANG:{
-			PWMC1=1500;
+			PWMC1=900;
 			PWMC2=1200;
 			if(mydelay_1s())
 			{
@@ -293,8 +294,8 @@ void radarmsgproc(radarpoints_e point)
 			
 		}break;
 		case XIA:{
-			PWMC1=1500;
-			PWMC2=1800;
+			PWMC1=900;
+			PWMC2=600;
 			if(mydelay_1s())
 			{
 				radarpoint=ZUO;
@@ -334,7 +335,13 @@ void avoidobstacle()
 			}
 		}break;
 		case LOWER:{
-			
+			if(downcnt>downtim)
+			{
+				downcnt=0;
+				motionlist=SCAN1;
+			}else{
+				downcnt++;
+			}
 
 		}break;
 		case SCAN1:{//5 points

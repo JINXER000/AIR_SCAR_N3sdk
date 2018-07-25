@@ -583,14 +583,6 @@ waitForACK()
 #ifdef __cplusplus
 extern "C" {
 #endif //__cplusplus
-void
-USART3_IRQHandler(void)
-{
-  
-}
-
-
-
 
 
 
